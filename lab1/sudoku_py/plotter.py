@@ -1,6 +1,8 @@
+import board as brd
+
+
 class SudokuPlot:
-    def __init__(self, sudoku_grid_ptr, base):
-        self.grid = sudoku_grid_ptr
+    def __init__(self, base):
         self.base = base
 
         def expand_line(line):
@@ -13,13 +15,15 @@ class SudokuPlot:
         self.separator = expand_line("╠═══╪═══╬═══╣")
         self.border_bottom = expand_line("╚═══╧═══╩═══╝")
 
-    def print_grid(self):
+    def print_grid(self, board: brd.SudokuBoard):
+        grid = board.grid
+
         print(self.border_top)
 
         for row_i in range(0, self.base * self.base):
             row_line = self.inner_template
             for col_i in range(0, self.base * self.base):
-                value = self.grid[row_i, col_i]
+                value = grid[row_i, col_i]
                 if value == 0:
                     row_line = row_line.replace(".", " ", 1)
                 elif value < 10:

@@ -2,6 +2,7 @@ import numpy as np
 import time
 
 import solver as slv
+import board as brd
 import plotter as plt
 
 
@@ -32,20 +33,26 @@ base_sudoku = np.array([
 
 
 def main():
-    solver = slv.SudokuSolver(base_sudoku)
-    plotter = plt.SudokuPlot(base_sudoku, N)
+    board = brd.SudokuBoard(base_sudoku)
+
+    solver = slv.SudokuSolver(board)
+    # fitness = solver.fitness_func(board)
+
+    # return
+    plotter = plt.SudokuPlot(N)
 
     print("Initial Sudoku:\n")
-    plotter.print_grid()
+    plotter.print_grid(board)
 
     t_start = time.time()
-    result_board = solver.solve(True)
+    result_board = solver.solve(plotter, steps=50)
     t_end = time.time()
 
     print("Solved sudoku:\n")
-    plotter.grid = result_board
-    plotter.print_grid()
+    plotter.print_grid(result_board)
     print("\nElapsed time: {} secs".format(t_end - t_start))
+
+    print("\nValid sudoku: ", solver.is_valid(result_board))
 
 
 if __name__ == "__main__":
